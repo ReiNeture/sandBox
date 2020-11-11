@@ -5,7 +5,7 @@
 using namespace std;
 
 int main(int argc, char const *argv[])
-{ /* code */
+{ /* code */ /* Test Git */
     
     time_t timer;
     time(&timer);
