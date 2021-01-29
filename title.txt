@@ -9,5 +9,10 @@ rino(CooRie),はじめてのこい
 KOTOKO,All right!!
 茶太,終わらないリズム
 カサンドラ,GRAND EXPRESS
+<<<<<<< HEAD
 彩色雞雞
 大便色雞雞
+=======
+Gawr Gura Sings,Baka Mitai
+彩色雞雞
+>>>>>>> fdc72bf3c6aefe97e29196a55af2d4c8bdc950bc
