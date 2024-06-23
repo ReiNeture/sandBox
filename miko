@@ -6,7 +6,7 @@
 #include <cstring>
 
 using namespace std;
-//void sleep(unsigned int); test456
+//void sleep(unsigned int); test456-2
 void GetNextMinute(ostringstream *);
 
 int main(int argc, char const *argv[])
