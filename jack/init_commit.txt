@@ -1,3 +1,9 @@
+<<<<<<< HEAD
 122222222
 test from rem jjj by main & main2
 5555555555 by sand2
+=======
+122222222 iii by main2
+test from rem jjj by main & main2
+5555555555 by sand2 iii by main2
+>>>>>>> main2
