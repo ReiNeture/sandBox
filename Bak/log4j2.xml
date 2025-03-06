@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+	<Properties>
+		<Property name="logPath">C:/LOG/ME</Property>
+		<!-- Property name="MaxRollover">3</Property -->
+	</Properties>
+
+    <Appenders>
+        <!-- CONSOLE: 輸出到控制台 -->
+        <Console name="CONSOLE" target="SYSTEM_OUT">
+            <PatternLayout pattern="#### [%-5p][%t][%c]-%m%n"/>
+        </Console>
+
+        <!-- A1: BussLog -->
+        <RollingFile name="A1" fileName="${logPath}/test/busslog/BussLog.log"
+                     filePattern="${logPath}/test/busslog/BussLog-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="#### [%-5p]%d{yyyy-MM-dd HH:mm:ss,SSS} Method:%l%n@@@@ %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="64 KB"/>
+            </Policies>
+			<DefaultRolloverStrategy max="3"/>
+        </RollingFile>
+
+        <!-- A2: FrameLog -->
+        <RollingFile name="A2" fileName="${logPath}/framelog/FrameLog.log"
+                     filePattern="${logPath}/framelog/FrameLog-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="#### [%-5p]%d{yyyy-MM-dd HH:mm:ss,SSS} Method:%l%n@@@@ %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="64 KB"/>
+            </Policies>
+			<DefaultRolloverStrategy max="3"/>
+        </RollingFile>
+
+        <!-- A3: DailyLog -->
+        <RollingFile name="A3" fileName="${logPath}/dailylog/DailyLog.log"
+                     filePattern="${logPath}/dailylog/DailyLog-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="[%-5p]|%d{HH:mm:ss}|%m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="64 KB"/>
+            </Policies>
+			<DefaultRolloverStrategy max="3"/>
+        </RollingFile>
+
+        <!-- A4: UserAction -->
+        <RollingFile name="A4" fileName="${logPath}/useraction/UserAction.log"
+                     filePattern="${logPath}/useraction/UserAction-%d{yyyy-MM}.log">
+            <PatternLayout pattern="[%-5p]%d{yyyy-MM-dd HH:mm:ss,SSS}|%m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="64 KB"/>
+            </Policies>
+			<DefaultRolloverStrategy max="3"/>
+        </RollingFile>
+
+        <!-- A5: InteLog -->
+        <RollingFile name="A5" fileName="${logPath}/InterfaceLog/InterfaceLog.log"
+                     filePattern="${logPath}/InterfaceLog/InterfaceLog-%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="#### [%-5p]%d{yyyy-MM-dd HH:mm:ss,SSS} Method:%l%n@@@@ %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+				<SizeBasedTriggeringPolicy size="64 KB"/>
+            </Policies>
+			<DefaultRolloverStrategy max="3"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+
+        <Root level="debug">
+        </Root>
+
+        <!-- 各個 Logger 設定 -->
+        <Logger name="Buss" level="debug" additivity="false">
+            <AppenderRef ref="A1"/>
+        </Logger>
+
+        <Logger name="Frame" level="debug" additivity="false">
+            <AppenderRef ref="A2"/>
+        </Logger>
+
+        <Logger name="Daily" level="info" additivity="false">
+            <AppenderRef ref="A3"/>
+        </Logger>
+
+        <Logger name="UserAction" level="info" additivity="false">
+            <AppenderRef ref="A4"/>
+        </Logger>
+
+        <Logger name="InterfaceLog" level="debug" additivity="false">
+            <AppenderRef ref="A5"/>
+        </Logger>
+		
+    </Loggers>
+</Configuration>
