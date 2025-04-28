@@ -5,11 +5,15 @@ import java.util.regex.*;
 
 public class DependencyTreeToPom {
 
+	// mvn dependency:copy-dependencies -DoutputDirectory=lib
+	// mvn dependency:tree
+	// mvn dependency:tree > a.txt
+	
     private static final Pattern DEP_PATTERN = Pattern.compile(
             ".*?([a-zA-Z0-9_.-]+):([a-zA-Z0-9_.-]+):([a-zA-Z0-9_.-]+):([a-zA-Z0-9_.-]+):([a-z]+).*");
 
     public static void main(String[] args) throws IOException {
-        File inputFile = new File("C:\\p\\pomWork\\a.txt"); // 請輸入你的 dependency:tree 輸出檔案路徑
+        File inputFile = new File("C:\\p\\pomWork\\a.txt"); // 請輸入你的 dependency:tree 輸出檔案路徑 
         Set<String> uniqueDeps = new HashSet<>();
         List<String> pomDependencies = new ArrayList<>();
 
@@ -26,7 +30,7 @@ public class DependencyTreeToPom {
                     String version = matcher.group(4);
                     String scope = matcher.group(5);
 
-                    if ("provided".equals(scope)) continue; // 跳過 provided
+                    if ("provided".equals(scope) || "system".equals(scope)) continue; // 跳過 provided
 
                     String jarFile = artifactId + "-" + version + "." + type;
 
