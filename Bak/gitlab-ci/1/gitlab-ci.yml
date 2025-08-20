@@ -1,0 +1,26 @@
+stages:
+  - build-deploy
+
+build-and-deploy:
+  stage: build-deploy
+  script:
+    - $ErrorActionPreference = 'Stop'
+    - Set-Location $env:CI_PROJECT_DIR
+    - mvn -version
+    - mvn clean package
+
+    - $WAR  = 'CSPS\target\CSPS.war'
+    - $DEST = 'C:\tools\jboss-eap-7.4\standalone\deployments\CSPS.war'
+
+    - Copy-Item -Path $WAR -Destination $DEST -Force
+    - New-Item -ItemType File -Path ($DEST + '.dodeploy') -Force | Out-Null
+    
+  artifacts:
+    name: "CSPS-$CI_COMMIT_REF_NAME-$CI_PIPELINE_ID"
+    paths:
+      - CSPS/target/*.war
+    when: always
+    expire_in: 7 days
+  when: manual
+  only:
+    - CTBC_Phase_2_CI
