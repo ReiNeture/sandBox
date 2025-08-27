@@ -1,0 +1,22 @@
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: always
+    - when: never
+
+stages:
+  - build-deploy
+
+build-and-deploy:
+  stage: build-deploy
+  script:
+    - $ErrorActionPreference = 'Stop'
+    - Set-Location $env:CI_PROJECT_DIR
+    - mvn -version
+    - mvn -B clean package
+
+    - $WAR  = 'CSPS\target\CSPS.war'
+    - $DEST = 'C:\tools\jboss-eap-7.4\standalone\deployments\CSPS.war'
+
+    - Copy-Item -Path $WAR -Destination $DEST -Force
+    - New-Item -ItemType File -Path ($DEST + '.dodeploy') -Force | Out-Null
