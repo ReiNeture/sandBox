@@ -1,0 +1,148 @@
+Maven 吃肚子轉換步驟(首次)：
+
+1. mvn dependency:copy-dependencies -DoutputDirectory=lib 下載
+
+
+2. 移除 /lib 下列 tomcat-embed 檔案
+	tomcat-embed-core-9.0.63.jar
+	tomcat-embed-el-9.0.63.jar
+	tomcat-embed-websocket-9.0.63.jar
+
+
+3. 將 mvn dependency:tree 透過 dependency 生成器結果，貼至 pom.xml <dependencies> 區塊
+
+
+4. 手動新增依賴(編譯用到)
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/javax.servlet-api-4.0.1.jar</systemPath>
+		</dependency>
+
+4-1. javax.servlet-api-4.0.1.jar 放 /lib
+
+
+5. 新增插件
+		<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webResources>
+						<resource>
+							<directory>${project.basedir}/lib</directory>
+							<targetPath>WEB-INF/lib</targetPath>
+							<includes>
+								<include>*.jar</include>
+							</includes>
+							<excludes>
+								<exclude>javax.servlet-api-4.0.1.jar</exclude>
+							</excludes>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+
+
+
+
+
+
+Maven 吃肚子轉換步驟(更新)：
+
+1. 新增 maven-module\net\pom.xml 依賴
+2. 執行 mvn dependency:copy-dependencies -DoutputDirectory=lib -DexcludeScope=provided
+3. 移除 tomcat-embed-core-9.0.63.jar 並換成 javax.servlet-api-4.0.1.jar
+4. 蓋掉 \lib
+5. 生成 mvn dependency:tree > C:/p/pomWork/a.txt
+6. 執行生成器 貼回 pom
+7. 刪除 pom tomcat-embed-el 補 javax.servlet-api
+
+
+NOTE：
+mvn dependency:tree
+
+mvn dependency:tree -Dincludes=org.springframework // 格式 [groupId]:[artifactId]:[type]:[version]，沒值可留空
+mvn dependency:tree -Dincludes=velocity:velocity
+mvn dependency:tree -Dincludes=:spring-aop
+
+mvn dependency:copy-dependencies -DoutputDirectory=lib -DexcludeScope=provided // 不下載 provided
+mvn dependency:copy-dependencies -DoutputDirectory=lib -DincludeScope=runtime // 包含 compile + runtime
+
+
+套件依賴更換清單：
+	刪除：
+		tomcat-embed-el-9.0.63.jar // embed 系列有弱點
+		tomcat-embed-websocket-9.0.63.jar // provided
+		tomcat-embed-core-9.0.63.jar // provided
+		spring-boot-starter-tomcat-2.5.14.jar // provided
+		
+	新增：
+		javax.servlet-api-4.0.1.jar // 移除 tomcat-embed-el 須補此項(僅compile)
+		
+	更換：
+		commons-beanutils-1.11.0.jar // 原為 1.9.4 
+		commons-compress-1.26.2.jar // 原為 1.21.0
+		snakeyaml-2.0.jar // 1.28
+		commons-io-2.14.0.jar // 2.11.0
+	
+	其他：
+		netty 1.1.30 // 使用maven控制
+
+複製區：
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/javax.servlet-api-4.0.1.jar</systemPath>
+		</dependency>
+		
+		
+				<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webResources>
+						<resource>
+							<directory>${project.basedir}/lib</directory>
+							<targetPath>WEB-INF/lib</targetPath>
+							<includes>
+								<include>*.jar</include>
+							</includes>
+							<excludes>
+								<exclude>javax.servlet-api-4.0.1.jar</exclude>
+							</excludes>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+			
+			
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>io.projectreactor.netty</groupId>
+				<artifactId>reactor-netty</artifactId>
+				<version>1.1.30</version>
+			</dependency>
+			<dependency>
+				<groupId>io.projectreactor.netty</groupId>
+				<artifactId>reactor-netty-core</artifactId>
+				<version>1.1.30</version>
+			</dependency>
+			<dependency>
+				<groupId>io.projectreactor.netty</groupId>
+				<artifactId>reactor-netty-http</artifactId>
+				<version>1.1.30</version>
+			</dependency>
+			<dependency>
+	            <groupId>io.netty</groupId>
+	            <artifactId>netty-bom</artifactId>
+	            <version>4.1.121.Final</version>
+	            <type>pom</type>
+	            <scope>import</scope>
+	        </dependency>
+		</dependencies>
+	</dependencyManagement>

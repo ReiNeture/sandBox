@@ -1,0 +1,187 @@
+新SVN：yiliang.chen/FZOn37DD
+測試SVN：https://192.168.18.41/svn/YuukiKitsu/
+
+新VPN：
+125.227.6.83:4488
+yiliang.chen
+h6Qx3I3MpSv8
+	
+公曹PWD：
+h6Qx3I3MpSv
+
+
+================================================================================================================
+Git相關實用指令：
+git diff <commit-SHA1> <commit-SHA2> --diff-filter=ACMRT > diff_output.patch
+產生sha1與sha2的diff(不含sha1)，--diff-filter=ACMRT 略過二進制檔, > diff_output.patch 指定檔案
+
+git diff main...dev
+先找出 main 與 dev 共祖，再用共祖跟 dev比較
+等價於：
+git diff $(git merge-base main dev) dev
+
+GIT膠板步驟：
+1. 切換至專案目錄 
+cd /cygdrive/c/github/<Git專案目錄>
+2. 匯出 source檔案
+git diff --name-status main...release | grep '^[AM]' | cut -f2 | rsync -av --files-from=- ./ /cygdrive/c/p/git_source/
+3. 生成 diff檔案
+git diff main...release > /cygdrive/c/p/git_diff/a.diff
+3-1. 每個檔案一個diff(有資料夾結構)
+```
+mkdir -p /cygdrive/c/p/git_diff
+for file in $(git diff --name-only main...dev); do
+    mkdir -p "/cygdrive/c/p/diff_by_file/$(dirname "$file")"
+    git diff main...dev -- "$file" > "/cygdrive/c/p/git_diff/${file}.diff"
+done
+```
+4. 驗證
+git diff --name-status main..release 
+git diff --name-only main...dev
+================================================================================================================
+
+Python：
+[表達式 for 變數 in 可迭代物件 if 條件]
+
+even_squares = [x * x for x in range(10) if x % 2 == 0]
+# ➜ [0, 4, 16, 36, 64]
+
+points = [
+        {'date': idx.isoformat(), 'rate': float(val)}
+        for idx, val in zip(data.index, data[currency])
+    ]
+
+IE模擬開發人員工具：
+win+R
+%systemroot%\system32\f12\IEChooser.exe
+
+
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+公司gitlab
+http://192.168.18.202/
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+兆豐AR
+tomcat：
+	http://192.168.18.155:8086/MEGAWeb/main/login2.jsp?src=DB
+	http://192.168.18.155:8086/GEB/index.jsp
+SVN：
+	DEV：svn://192.168.2.227/MEGAPROD
+	PROD：svn://192.168.2.227/MEGA_AR_EFAC
+報表：
+	IP：192.168.18.41
+	User name:administrater
+	P/W:vteamESXi!
+JENKINS：
+	http://192.168.18.155:8088/
+	
+===========================================================================
+兆豐EFIN
+tomcat：
+	http://192.168.18.155:8086/EFINWeb/main/login2.jsp?src=DB
+SVN：
+	DEV：svn://192.168.2.227/MEGAEFINPROD
+	PROD：svn://192.168.2.227/MEGA_EFIN_FI
+報表：
+	IP：192.168.18.41
+	User name:administrater
+	P/W:vteamESXi!
+JENKINS：
+	http://192.168.18.155:8088/
+	
+兆豐DB
+192.168.18.157:50000/MGARDB, db2admin/vteam
+192.168.18.62:25000/MGARDB, db2admin/Vteam123
+192.168.18.156:50000/EFINDB_N, db2admin/vteam
+192.168.18.157:50000/MGEFINDB, db2admin/vteam
+報表機：192.168.18.41 administrater/vteamESXi!
+系統環境機：192.168.18.61 administrator/Fd8HBQ2Xe2pX
+AREDGE 主要SVN：
+http://192.168.18.155:81/svn/mega_AR_prd_vteam3
+svn://192.168.2.227/MEGA_AR_EFAC
+EFIN 主要SVN：
+svn://192.168.2.227/MEGAEFINPROD
+svn://192.168.2.227/MEGA_EFIN_FI
+其他AR SVN：
+https://192.168.18.5:8443/svn/AR_edge_low
+http://192.168.18.207:8085/svn/AREDGE_VS
+	
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+中信
+orcale db：(Aqua選9)
+  192.168.8.176:1521
+  SID：AR
+  FASCFVNUMGR/vteam
+  FASCFWEBUSR/vteam
+  
+  192.168.8.176:1521
+  SID：GB
+  FASCFGBUMGR/不知道
+
+svn：DEV：svn://192.168.2.227/CTBC_DEV
+
+192.168.18.207
+administrator/1234@Qwer
+
+192.168.18.189
+administrator/vteam
+
+Jboss路徑：C:/tools/jboss7.4
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+新光
+JDK1.8 (2025/08/28)
+
+SQL Server：
+	192.168.18.167:1433
+	sa\vteam
+	CSPSDB_20170310
+	
+192.168.18.177
+  administrator/vteam
+	
+svn://192.168.2.227/SKBK
+
+http://192.168.18.167:8082/CSPSWeb/main/login2.jsp?src=DB?1
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+安泰
+JDK1.8 (2025/08/28)
+
+SQL Server：
+  192.168.18.177:1433
+  sa/vteam
+  CSPSDB_20210220
+
+192.168.18.177
+  administrator/Vteam123
+
+svn://192.168.2.227/ENTDEV
+
+http://192.168.18.177:8080/CSPSACH/main/login.jsp?src=DB&LanguageType=zh_TW
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+台企
+JDK1.8 (2025/08/28) + WAS
+
+192.168.18.5
+  administrator/WinTop$168
+
+SQL Server：(爆炸沒了)
+  192.168.18.207:1433
+  sa/vteam
+
+svn://192.168.2.227/TBBK
+svn://192.168.2.227 /TBBDEV
+svn://192.168.2.227/TBBSTG
+http://192.168.18.207:8085/svn/TBB_edge
+
+https://192.168.18.5:9443/TBB_edge/main/login2.jsp?1
+
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+凱基 svn://192.168.2.227/KGIB_DEV
+工銀 svn://192.168.2.227/IBT_DEV
+
+SCT-SPA svn://192.168.2.227/MetaSite
+
